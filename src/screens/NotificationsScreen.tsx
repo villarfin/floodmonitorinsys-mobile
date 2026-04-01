@@ -65,7 +65,9 @@ export function NotificationsScreen() {
 
   return (
     <ScreenLayout title="Notifications" subtitle="Manage tsunami/flood alerts and read state.">
-      <Text style={styles.liveText}>Live weather feed: <Text style={styles.liveValue}>{status === "loading" ? "Updating..." : "Synced"}</Text></Text>
+      <Text style={styles.liveText}>
+        Live weather feed: <Text style={styles.liveValue}>{status === "loading" ? "Updating..." : "Synced"}</Text>
+      </Text>
       <Text style={styles.label}>Filter Type</Text>
       <View style={styles.filtersRow}>
         {["All", "Tsunami", "Flood", "Rainfall"].map((value) => {
@@ -96,23 +98,32 @@ export function NotificationsScreen() {
         </Pressable>
       </View>
 
-      <Text style={styles.unreadText}>Unread notifications: <Text style={styles.unreadValue}>{unreadCount}</Text></Text>
+      <Text style={styles.unreadText}>
+        Unread notifications: <Text style={styles.unreadValue}>{unreadCount}</Text>
+      </Text>
 
       {filteredItems.length === 0 ? (
         <Text style={styles.empty}>No notifications to show.</Text>
       ) : (
         filteredItems.map((item) => (
-          <MobileCard key={item.id}>
-            <View style={styles.cardHeader}>
-              <Text style={styles.cardTitle}>{item.title}</Text>
-              <Text style={styles.cardTime}>{item.time}</Text>
-            </View>
-            <Text style={styles.cardMessage}>{item.message}</Text>
-            <Text style={styles.cardType}>{item.type}</Text>
-            <Pressable style={styles.cardButton} onPress={() => toggleRead(item.id)}>
-              <Text style={styles.cardButtonText}>{item.isRead ? "Mark as unread" : "Mark as read"}</Text>
-            </Pressable>
-          </MobileCard>
+          <Pressable
+            key={item.id}
+            onPress={() => {
+              if (!item.isRead) toggleRead(item.id);
+            }}
+          >
+            <MobileCard style={!item.isRead ? styles.cardUnread : undefined}>
+              <View style={styles.cardHeader}>
+                <Text style={styles.cardTitle}>{item.title}</Text>
+                <Text style={styles.cardTime}>{item.time}</Text>
+              </View>
+              <Text style={styles.cardMessage}>{item.message}</Text>
+              <Text style={styles.cardType}>{item.type}</Text>
+              <Pressable style={styles.cardButton} onPress={() => toggleRead(item.id)}>
+                <Text style={styles.cardButtonText}>{item.isRead ? "Mark as unread" : "Mark as read"}</Text>
+              </Pressable>
+            </MobileCard>
+          </Pressable>
         ))
       )}
     </ScreenLayout>

@@ -87,6 +87,11 @@ export const styles = StyleSheet.create({
     color: colors.textMuted,
     fontStyle: "italic",
   },
+  cardUnread: {
+    backgroundColor: "#e8f0fe",
+    borderColor: "#accbff",
+    borderWidth: 1,
+  },
   cardHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -122,4 +127,3 @@ export const styles = StyleSheet.create({
     fontWeight: "700",
   },
 });
-
